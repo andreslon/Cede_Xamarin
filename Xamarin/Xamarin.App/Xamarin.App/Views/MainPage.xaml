@@ -2,6 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:views="clr-namespace:Xamarin.App.Views"
+            BackgroundColor="#fcfcfc"
             x:Class="Xamarin.App.Views.MainPage">
     <TabbedPage.Children>
         <NavigationPage Title="Browse">
@@ -14,7 +15,16 @@
                 <views:ItemsPage />
             </x:Arguments>
         </NavigationPage>
-        
+        <NavigationPage Title="Users">
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="iOS" Value="tab_feed.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+            <x:Arguments>
+                <views:UsersPage />
+            </x:Arguments>
+        </NavigationPage>
         <NavigationPage Title="About">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">

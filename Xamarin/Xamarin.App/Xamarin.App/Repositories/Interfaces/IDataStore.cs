@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Xamarin.App.Services
+namespace Xamarin.App.Repositories.Interfaces
 {
     public interface IDataStore<T>
     {

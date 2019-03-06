@@ -6,7 +6,8 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 using Xamarin.App.Models;
-using Xamarin.App.Services;
+using Xamarin.App.Repositories.Interfaces;
+using Xamarin.App.Repositories;
 
 namespace Xamarin.App.ViewModels
 {
