@@ -6,11 +6,11 @@ namespace Xamarin.App.ViewModels
 {
     public class UserDetailViewModel : BaseViewModel
     {
-        public Item Item { get; set; }
-        public UserDetailViewModel(Item item = null)
+        public User User { get; set; }
+        public UserDetailViewModel(User user = null)
         {
-            Title = item?.Text;
-            Item = item;
+            Title = $"{user?.Name} {user?.LastName}";
+            User = user;
         }
     }
 }

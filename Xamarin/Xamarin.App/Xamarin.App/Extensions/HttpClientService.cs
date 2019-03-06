@@ -1,10 +1,9 @@
-﻿using Xamarin.App.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.App.Extensions;
 using Xamarin.App.Extensions.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(HttpClientService))]
@@ -26,6 +25,10 @@ namespace Xamarin.App.Extensions
             using (var client = new HttpClient())
             {
                 string body = JsonConvert.SerializeObject(request);
+                var o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(body);
+                o.Property("UserId").Remove();
+                body = o.ToString();
+
                 return await client.PostAsync(apiUri,
                     new StringContent(body, Encoding.UTF8, "application/json"));
             }

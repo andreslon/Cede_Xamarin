@@ -36,5 +36,34 @@ namespace Xamarin.App.Repositories
             } 
             return null;
         }
+        async public Task<User> SaveUser(User user)
+        {
+            //Verificar si el usuario tiene internet
+            if (await NetworkService.IsNetworkAvailable())
+            {
+                 
+                var result = await HttpClientService.Post($"{ApiUri}/user", user);
+                if (result.IsSuccessStatusCode)
+                {
+                    string content = await result.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<User>(content);
+                }
+            } 
+            return null;
+        }
+        async public Task<bool> DeleteUser(string userId)
+        {
+            //Verificar si el usuario tiene internet
+            if (await NetworkService.IsNetworkAvailable())
+            {
+                var result = await HttpClientService.Delete($"{ApiUri}/user/{userId}");
+                if (result.IsSuccessStatusCode)
+                {
+                    string content = await result.Content.ReadAsStringAsync();
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

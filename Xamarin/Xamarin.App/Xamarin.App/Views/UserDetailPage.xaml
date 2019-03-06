@@ -1,12 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Xamarin.App.Views.UserDetailPage">
+             x:Class="Xamarin.App.Views.UserDetailPage" 
+             BackgroundColor="#fcfcfc"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete" Clicked="Delete_Clicked" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Name:" FontSize="Large" />
+            <Label Text="{Binding User.Name}" FontSize="Large"/>
+            <Label Text="LastName:" FontSize="Large" />
+            <Label Text="{Binding User.LastName}" FontSize="Large"/>
+            <Label Text="LastName:" FontSize="Large" />
+            <Label Text="{Binding User.Nit}" FontSize="Large"/>
+            <Label Text="LastName:" FontSize="Large" />
+            <Label Text="{Binding User.BirthDay}" FontSize="Large"/>
+            <Label Text="LastName:" FontSize="Large" />
+            <Label Text="{Binding User.Email}" FontSize="Large"/>
         </StackLayout>
     </ContentPage.Content>
+        
 </ContentPage>

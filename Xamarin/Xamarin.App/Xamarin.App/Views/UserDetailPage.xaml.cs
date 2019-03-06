@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.App.Models;
 using Xamarin.App.ViewModels;
 using Xamarin.Forms;
@@ -10,12 +6,12 @@ using Xamarin.Forms.Xaml;
 
 namespace Xamarin.App.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class UserDetailPage : ContentPage
-	{
-        ItemDetailViewModel viewModel;
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class UserDetailPage : ContentPage
+    {
+        UserDetailViewModel viewModel;
 
-        public UserDetailPage(ItemDetailViewModel viewModel)
+        public UserDetailPage(UserDetailViewModel viewModel)
         {
             InitializeComponent();
 
@@ -26,14 +22,19 @@ namespace Xamarin.App.Views
         {
             InitializeComponent();
 
-            var item = new Item
+            var item = new User
             {
-                Text = "Item 1",
-                Description = "This is an item description."
+
             };
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new UserDetailViewModel(item);
             BindingContext = viewModel;
+        }
+
+        async private void Delete_Clicked(object sender, EventArgs e)
+        {
+            MessagingCenter.Send(this, "DeleteUser", viewModel.User.UserId);
+            await Navigation.PopAsync();
         }
     }
 }

@@ -2,34 +2,39 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
 using Xamarin.App.Models;
+using Xamarin.App.Repositories.Interfaces;
 using Xamarin.App.Views;
+using Xamarin.Forms;
 
 namespace Xamarin.App.ViewModels
 {
     public class UsersViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public IUserRepository Repository => DependencyService.Get<IUserRepository>();
+        public ObservableCollection<User> Users { get; set; }
+        public Command LoadUsersCommand { get; set; }
 
         public UsersViewModel()
         {
-            Title = "UsersViewModel";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            Title = "Users";
+            Users = new ObservableCollection<User>();
+            LoadUsersCommand = new Command(async () => await ExecuteLoadUsersCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewUserPage, User>(this, "AddUser", async (obj, User) =>
             {
-                var newItem = item as Item;
-                Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
+                var newUser = User as User; 
+                await Repository.SaveUser(newUser);
+                await ExecuteLoadUsersCommand();
+            });
+            MessagingCenter.Subscribe<UserDetailPage, string>(this, "DeleteUser", async (obj, userId) =>
+            { 
+                await Repository.DeleteUser(userId);
+                await ExecuteLoadUsersCommand();
             });
         }
 
-        async Task ExecuteLoadItemsCommand()
+        async Task ExecuteLoadUsersCommand()
         {
             if (IsBusy)
                 return;
@@ -38,12 +43,13 @@ namespace Xamarin.App.ViewModels
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                Users.Clear();  
+                var response = await Repository.GetUsers();
+                foreach (var User in response)
                 {
-                    Items.Add(item);
+                    Users.Add(User);
                 }
+
             }
             catch (Exception ex)
             {

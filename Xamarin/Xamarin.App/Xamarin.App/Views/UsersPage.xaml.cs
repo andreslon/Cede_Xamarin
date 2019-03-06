@@ -13,38 +13,38 @@ namespace Xamarin.App.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsersPage : ContentPage
     {
-        ItemsViewModel viewModel;
+        UsersViewModel viewModel;
 
         public UsersPage()
         {
             InitializeComponent();
 
-            BindingContext = viewModel = new ItemsViewModel();
+            BindingContext = viewModel = new UsersViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as Item;
+            var item = args.SelectedItem as User;
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            await Navigation.PushAsync(new UserDetailPage(new UserDetailViewModel(item)));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e)
+        async void AddUser_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
+            await Navigation.PushModalAsync(new NavigationPage(new NewUserPage()));
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
+            if (viewModel.Users.Count == 0)
+                viewModel.LoadUsersCommand.Execute(null);
         }
     }
 }
